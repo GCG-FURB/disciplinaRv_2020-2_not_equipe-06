@@ -8,13 +8,49 @@ public class BodySourceView : MonoBehaviour
 {
     public BodySourceManager BodySourceManager;
     public GameObject JointObject;
+    public Material BoneMaterial;
+    public Color Color = Color.green;
 
     private Dictionary<ulong, GameObject> _bodies = new Dictionary<ulong, GameObject>();
     private List<JointType> _joints = new List<JointType>
     {
+        JointType.FootLeft,
+        JointType.FootRight,
+
+        JointType.KneeLeft,
+        JointType.KneeRight,
+
         JointType.HandLeft,
         JointType.HandRight,
+
+        JointType.ElbowLeft,
+        JointType.ElbowRight,
+
+        JointType.SpineBase,
+        // Talvez mudar para Neck
+        JointType.SpineShoulder,
+
+        JointType.Head,
     };
+
+    private Dictionary<JointType, JointType> _boneMap = new Dictionary<JointType, JointType>()
+    {
+        { JointType.FootLeft, JointType.KneeLeft },
+        { JointType.KneeLeft, JointType.SpineBase },
+
+        { JointType.FootRight, JointType.KneeRight },
+        { JointType.KneeRight, JointType.SpineBase },
+
+        { JointType.HandLeft, JointType.ElbowLeft },
+        { JointType.ElbowLeft, JointType.SpineShoulder },
+
+        { JointType.HandRight, JointType.ElbowRight },
+        { JointType.ElbowRight, JointType.SpineShoulder },
+
+        { JointType.SpineBase, JointType.SpineShoulder },
+        { JointType.SpineShoulder, JointType.Head },
+    };
+
 
     public void Update()
     {
@@ -73,6 +109,12 @@ public class BodySourceView : MonoBehaviour
             GameObject newJoint = Instantiate(JointObject);
             newJoint.name = joint.ToString();
             newJoint.transform.parent = body.transform;
+
+            LineRenderer lr = newJoint.AddComponent<LineRenderer>();
+            lr.positionCount = 2;
+            lr.material = BoneMaterial;
+            lr.startWidth  = 0.05f;
+            lr.endWidth  = 0.05f;
         }
 
         return body;
@@ -80,17 +122,31 @@ public class BodySourceView : MonoBehaviour
 
     private void UpdateBodyObject(Body body, GameObject bodyObject)
     {
-        foreach (JointType _joint in _joints)
+        foreach (JointType joint in _joints)
         {
-            Joint sourceJoint = body.Joints[_joint];
-            Vector3 targetPosition = GetVector3FromJoint(sourceJoint);
-            targetPosition.z = 0;
+            Joint sourceJoint = body.Joints[joint];
+            Joint? targetJoint = null;
 
-            Transform jointObject = bodyObject.transform.Find(_joint.ToString());
-            jointObject.position = targetPosition;
+            if (_boneMap.ContainsKey(joint))
+                targetJoint = body.Joints[_boneMap[joint]];
+
+            Transform jointObject = bodyObject.transform.Find(joint.ToString());
+            jointObject.position = GetVector3FromJoint(sourceJoint, z: 0);
+
+            LineRenderer lr = jointObject.GetComponent<LineRenderer>();
+
+            if (targetJoint.HasValue)
+            {
+                lr.SetPosition(0, jointObject.localPosition);
+                lr.SetPosition(1, GetVector3FromJoint(targetJoint.Value, z: 0));
+                lr.startColor = this.Color;
+                lr.endColor = this.Color;
+            }
+            else
+                lr.enabled = false;
         }
     }
 
-    private Vector3 GetVector3FromJoint(Joint joint)
-        => new Vector3(joint.Position.X * 10, joint.Position.Y * 10, joint.Position.Z * 10);
+    private Vector3 GetVector3FromJoint(Joint joint, int? x = null, int? y = null, int? z = null)
+        => new Vector3(x ?? joint.Position.X * 10, y ?? joint.Position.Y * 10, z ?? joint.Position.Z * 10);
 }
