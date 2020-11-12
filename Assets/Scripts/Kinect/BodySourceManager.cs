@@ -1,70 +1,58 @@
 ﻿using UnityEngine;
-using System.Collections;
 using Windows.Kinect;
 
-public class BodySourceManager : MonoBehaviour 
+public class BodySourceManager : MonoBehaviour
 {
-    private KinectSensor _Sensor;
-    private BodyFrameReader _Reader;
-    private Body[] _Data = null;
-    
-    public Body[] GetData()
-    {
-        return _Data;
-    }
-    
+    private KinectSensor _sensor;
+    private BodyFrameReader _reader;
+    private Body[] _data = null;
 
-    void Start () 
-    {
-        _Sensor = KinectSensor.GetDefault();
+    public Body[] GetData() => _data;
 
-        if (_Sensor != null)
-        {
-            _Reader = _Sensor.BodyFrameSource.OpenReader();
-            
-            if (!_Sensor.IsOpen)
-            {
-                _Sensor.Open();
-            }
-        }   
-    }
-    
-    void Update () 
+    public void Start()
     {
-        if (_Reader != null)
+        _sensor = KinectSensor.GetDefault();
+
+        if (_sensor != null)
         {
-            var frame = _Reader.AcquireLatestFrame();
+            _reader = _sensor.BodyFrameSource.OpenReader();
+
+            if (!_sensor.IsOpen)
+                _sensor.Open();
+        }
+    }
+
+    public void Update()
+    {
+        if (_reader != null)
+        {
+            var frame = _reader.AcquireLatestFrame();
             if (frame != null)
             {
-                if (_Data == null)
-                {
-                    _Data = new Body[_Sensor.BodyFrameSource.BodyCount];
-                }
-                
-                frame.GetAndRefreshBodyData(_Data);
-                
+                if (_data == null)
+                    _data = new Body[_sensor.BodyFrameSource.BodyCount];
+
+                frame.GetAndRefreshBodyData(_data);
+
                 frame.Dispose();
-                frame = null;
             }
-        }    
-    }
-    
-    void OnApplicationQuit()
-    {
-        if (_Reader != null)
-        {
-            _Reader.Dispose();
-            _Reader = null;
         }
-        
-        if (_Sensor != null)
+    }
+
+    public void OnApplicationQuit()
+    {
+        if (_reader != null)
         {
-            if (_Sensor.IsOpen)
-            {
-                _Sensor.Close();
-            }
-            
-            _Sensor = null;
+            _reader.Dispose();
+            _reader = null;
+        }
+
+        if (_sensor != null)
+        {
+            if (_sensor.IsOpen)
+                _sensor.Close();
+
+            _sensor = null;
         }
     }
 }

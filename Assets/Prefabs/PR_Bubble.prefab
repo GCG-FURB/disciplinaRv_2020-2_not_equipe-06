@@ -61,9 +61,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6a52426bc19da1d41a20a68134bbab02, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mBubbleSprite: {fileID: 21300000, guid: 0cb20893316b31849aa57cce2ffde00e, type: 3}
-  mPopSprite: {fileID: 21300000, guid: 7f5d45d9834c77d47b570bd4d1e2e39f, type: 3}
-  mBubbleManager: {fileID: 0}
+  BubbleSprite: {fileID: 21300000, guid: 0cb20893316b31849aa57cce2ffde00e, type: 3}
+  PopSprite: {fileID: 21300000, guid: 7f5d45d9834c77d47b570bd4d1e2e39f, type: 3}
+  _bubbleManager: {fileID: 0}
 --- !u!212 &212870082002213654
 SpriteRenderer:
   m_ObjectHideFlags: 0

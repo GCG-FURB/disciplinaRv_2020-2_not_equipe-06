@@ -164,8 +164,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8821130411451d343a1488e2a9db134e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mBodySourceManager: {fileID: 1698423885}
-  mJointObject: {fileID: 1581252307236616, guid: 184f2a9019d03ed47bc3d16a742f1acc,
+  BodySourceManager: {fileID: 1698423885}
+  JointObject: {fileID: 1581252307236616, guid: 184f2a9019d03ed47bc3d16a742f1acc,
     type: 3}
 --- !u!1001 &1455907711
 PrefabInstance:
@@ -177,6 +177,10 @@ PrefabInstance:
     - target: {fileID: 1371511628477458, guid: d54119c3842f0734098a7968e11f3d4b, type: 3}
       propertyPath: m_Name
       value: PR_BubbleManager
+      objectReference: {fileID: 0}
+    - target: {fileID: 1371511628477458, guid: d54119c3842f0734098a7968e11f3d4b, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4336931173977538, guid: d54119c3842f0734098a7968e11f3d4b, type: 3}
       propertyPath: m_LocalPosition.x

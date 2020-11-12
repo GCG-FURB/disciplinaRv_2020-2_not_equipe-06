@@ -1,63 +1,59 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class Bubble : MonoBehaviour
 {
-    public Sprite mBubbleSprite;
-    public Sprite mPopSprite;
+    public Sprite BubbleSprite;
+    public Sprite PopSprite;
 
     [HideInInspector]
-    public BubbleManager mBubbleManager = null;
+    public BubbleManager _bubbleManager = null;
 
-    private Vector3 mMovementDirection = Vector3.zero;
-    private SpriteRenderer mSpriteRenderer = null;
-    private Coroutine mCurrentChanger = null;
+    private Vector3 _movementDirection = Vector3.zero;
+    private SpriteRenderer _spriteRenderer = null;
+    private Coroutine _currentChanger = null;
 
     private void Awake()
     {
-        mSpriteRenderer = GetComponent<SpriteRenderer>();
+        _spriteRenderer = GetComponent<SpriteRenderer>();
     }
 
     private void Start()
     {
-        mCurrentChanger = StartCoroutine(DirectionChanger());
+        _currentChanger = StartCoroutine(DirectionChanger());
     }
 
     private void OnBecameInvisible()
     {
-        transform.position = mBubbleManager.GetPlanePosition();
+        transform.position = _bubbleManager.GetPlanePosition();
     }
 
     private void Update()
     {
-        // Movement
-        transform.position += mMovementDirection * Time.deltaTime * 0.35f;
-
-        // Rotation
-        transform.Rotate(Vector3.forward * Time.deltaTime * mMovementDirection.x * 20, Space.Self);
+        transform.position += _movementDirection * Time.deltaTime * 0.35f;
+        transform.Rotate(Vector3.forward * Time.deltaTime * _movementDirection.x * 20, Space.Self);
     }
 
     public IEnumerator Pop()
     {
-        mSpriteRenderer.sprite = mPopSprite;
+        _spriteRenderer.sprite = PopSprite;
 
-        StopCoroutine(mCurrentChanger);
-        mMovementDirection = Vector3.zero;
+        StopCoroutine(_currentChanger);
+        _movementDirection = Vector3.zero;
 
         yield return new WaitForSeconds(0.5f);
 
-        transform.position = mBubbleManager.GetPlanePosition();
+        transform.position = _bubbleManager.GetPlanePosition();
 
-        mSpriteRenderer.sprite = mBubbleSprite;
-        mCurrentChanger = StartCoroutine(DirectionChanger());
+        _spriteRenderer.sprite = BubbleSprite;
+        _currentChanger = StartCoroutine(DirectionChanger());
     }
 
     private IEnumerator DirectionChanger()
     {
         while (gameObject.activeSelf)
         {
-            mMovementDirection = new Vector2(Random.Range(-100, 100) * 0.01f, Random.Range(0, 100) * 0.01f);
+            _movementDirection = new Vector2(Random.Range(-100, 100) * 0.01f, Random.Range(0, 100) * 0.01f);
 
             yield return new WaitForSeconds(5.0f);
         }
