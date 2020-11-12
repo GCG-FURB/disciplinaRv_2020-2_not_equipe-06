@@ -143,7 +143,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c0c50b56485b5834485bbac920bac237, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mHandMesh: {fileID: 4048595892630688}
+  HandMesh: {fileID: 4048595892630688}
 --- !u!50 &50476735779836974
 Rigidbody2D:
   serializedVersion: 4

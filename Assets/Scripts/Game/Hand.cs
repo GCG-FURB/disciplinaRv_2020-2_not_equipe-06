@@ -1,22 +1,20 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class Hand : MonoBehaviour
 {
-    public Transform mHandMesh;
+    public Transform HandMesh;
 
     private void Update()
     {
-        mHandMesh.position = Vector3.Lerp(mHandMesh.position, transform.position, Time.deltaTime * 15.0f);
+        HandMesh.position = Vector3.Lerp(HandMesh.position, transform.position, Time.deltaTime * 15.0f);
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
-    { 
-        if (!collision.gameObject.CompareTag("Bubble"))
-            return;
-
-        Bubble bubble = collision.gameObject.GetComponent<Bubble>();
-        StartCoroutine(bubble.Pop());
+    {
+        if (collision.gameObject.CompareTag("Bubble"))
+        {
+            Bubble bubble = collision.gameObject.GetComponent<Bubble>();
+            StartCoroutine(bubble.Pop());
+        }
     }
 }

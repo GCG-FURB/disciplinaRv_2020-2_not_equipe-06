@@ -1,89 +1,77 @@
-﻿using UnityEngine;
-using UnityEngine.Networking;
-using System.Collections.Generic;
-
+﻿using System.Collections.Generic;
+using System.Linq;
+using UnityEngine;
 using Windows.Kinect;
 using Joint = Windows.Kinect.Joint;
 
 public class BodySourceView : MonoBehaviour
 {
-    public BodySourceManager mBodySourceManager;
-    public GameObject mJointObject;
+    public BodySourceManager BodySourceManager;
+    public GameObject JointObject;
 
-    private Dictionary<ulong, GameObject> mBodies = new Dictionary<ulong, GameObject>();
+    private Dictionary<ulong, GameObject> _bodies = new Dictionary<ulong, GameObject>();
     private List<JointType> _joints = new List<JointType>
     {
         JointType.HandLeft,
         JointType.HandRight,
-        JointType.Head
     };
 
-    void Update()
+    public void Update()
     {
-        #region Get Kinect data
-        Body[] data = mBodySourceManager.GetData();
-        if (data == null)
-            return;
+        (var data, var trackedIds) = GetKinectData();
 
-        List<ulong> trackedIds = new List<ulong>();
-        foreach (var body in data)
+        DeleteUntrackedBodies(trackedIds);
+
+        CreateOrUpdateBodies(data);
+    }
+
+    private (Body[], List<ulong>) GetKinectData()
+    {
+        var bodiesData = BodySourceManager.GetData() ?? new Body[] { };
+        var trackedIds = new List<ulong>();
+
+        if (bodiesData != null)
         {
-            if (body == null)
-                continue;
-
-            if (body.IsTracked)
-                trackedIds.Add(body.TrackingId);
+            bodiesData = bodiesData.Where(body => body != null).ToArray();
+            trackedIds = bodiesData.Select(body => body.TrackingId).ToList();
         }
-        #endregion
 
-        #region Delete Kinect bodies
-        List<ulong> knownIds = new List<ulong>(mBodies.Keys);
-        foreach (ulong trackingId in knownIds)
+        return (bodiesData, trackedIds);
+    }
+
+    private void DeleteUntrackedBodies(List<ulong> trackedIds)
+    {
+        var knownIds = new List<ulong>(_bodies.Keys);
+
+        for (int i = 0; i < knownIds.Count; i++)
         {
-            if (!trackedIds.Contains(trackingId))
+            if (!trackedIds.Contains(knownIds[i]))
             {
-                // Destroy body object
-                Destroy(mBodies[trackingId]);
-
-                // Remove from list
-                mBodies.Remove(trackingId);
+                Destroy(_bodies[knownIds[i]]);
+                _bodies.Remove(knownIds[i]);
             }
         }
-        #endregion
+    }
 
-        #region Create Kinect bodies
-        foreach (var body in data)
+    private void CreateOrUpdateBodies(Body[] data)
+    {
+        foreach (var body in data.Where(body => body.IsTracked))
         {
-            // If no body, skip
-            if (body == null)
-                continue;
+            if (!_bodies.ContainsKey(body.TrackingId))
+                _bodies[body.TrackingId] = CreateBodyObject(body.TrackingId);
 
-            if (body.IsTracked)
-            {
-                // If body isn't tracked, create body
-                if (!mBodies.ContainsKey(body.TrackingId))
-                    mBodies[body.TrackingId] = CreateBodyObject(body.TrackingId);
-
-                // Update positions
-                UpdateBodyObject(body, mBodies[body.TrackingId]);
-            }
+            UpdateBodyObject(body, _bodies[body.TrackingId]);
         }
-        #endregion
     }
 
     private GameObject CreateBodyObject(ulong id)
     {
-        // Create body parent
-        GameObject body = new GameObject("Body:" + id);
+        GameObject body = new GameObject($"Body:{id}");
 
-        // Create joints
         foreach (JointType joint in _joints)
         {
-            // Create Object
-            GameObject newJoint = Instantiate(mJointObject);
+            GameObject newJoint = Instantiate(JointObject);
             newJoint.name = joint.ToString();
-
-            // Parent to body
             newJoint.transform.parent = body.transform;
         }
 
@@ -92,22 +80,17 @@ public class BodySourceView : MonoBehaviour
 
     private void UpdateBodyObject(Body body, GameObject bodyObject)
     {
-        // Update joints
         foreach (JointType _joint in _joints)
         {
-            // Get new target position
             Joint sourceJoint = body.Joints[_joint];
             Vector3 targetPosition = GetVector3FromJoint(sourceJoint);
             targetPosition.z = 0;
 
-            // Get joint, set new position
             Transform jointObject = bodyObject.transform.Find(_joint.ToString());
             jointObject.position = targetPosition;
         }
     }
 
     private Vector3 GetVector3FromJoint(Joint joint)
-    {
-        return new Vector3(joint.Position.X * 10, joint.Position.Y * 10, joint.Position.Z * 10);
-    }
+        => new Vector3(joint.Position.X * 10, joint.Position.Y * 10, joint.Position.Z * 10);
 }

@@ -4,17 +4,16 @@ using UnityEngine;
 
 public class BubbleManager : MonoBehaviour
 {
-    public GameObject mBubblePrefab;
+    public GameObject BubblePrefab;
 
-    private List<Bubble> mAllBubbles = new List<Bubble>();
-    private Vector2 mBottomLeft = Vector2.zero;
-    private Vector2 mTopRight = Vector2.zero;
+    private readonly List<Bubble> _allBubbles = new List<Bubble>();
+    private Vector2 _bottomLeft = Vector2.zero;
+    private Vector2 _topRight = Vector2.zero;
 
     private void Awake()
     {
-        // Bounding values
-        mBottomLeft = Camera.main.ScreenToWorldPoint(new Vector3(0, 0, Camera.main.farClipPlane));
-        mTopRight = Camera.main.ScreenToWorldPoint(new Vector3(Camera.main.pixelWidth, Camera.main.pixelHeight / 2, Camera.main.farClipPlane));
+        _bottomLeft = Camera.main.ScreenToWorldPoint(new Vector3(0, 0, Camera.main.farClipPlane));
+        _topRight = Camera.main.ScreenToWorldPoint(new Vector3(Camera.main.pixelWidth, Camera.main.pixelHeight / 2, Camera.main.farClipPlane));
     }
 
     private void Start()
@@ -31,24 +30,21 @@ public class BubbleManager : MonoBehaviour
 
     public Vector3 GetPlanePosition()
     {
-        // Random Position
-        float targetX = Random.Range(mBottomLeft.x, mTopRight.x);
-        float targetY = Random.Range(mBottomLeft.y, mTopRight.y);
+        float targetX = Random.Range(_bottomLeft.x, _topRight.x);
+        float targetY = Random.Range(_bottomLeft.y, _topRight.y);
 
         return new Vector3(targetX, targetY, 0);
     }
 
     private IEnumerator CreateBubbles()
     {
-        while (mAllBubbles.Count < 20)
+        while (_allBubbles.Count < 20)
         {
-            // Create and add
-            GameObject newBubbleObject = Instantiate(mBubblePrefab, GetPlanePosition(), Quaternion.identity, transform);
+            GameObject newBubbleObject = Instantiate(BubblePrefab, GetPlanePosition(), Quaternion.identity, transform);
             Bubble newBubble = newBubbleObject.GetComponent<Bubble>();
 
-            // Setup bubble
-            newBubble.mBubbleManager = this;
-            mAllBubbles.Add(newBubble);
+            newBubble._bubbleManager = this;
+            _allBubbles.Add(newBubble);
 
             yield return new WaitForSeconds(0.5f);
         }

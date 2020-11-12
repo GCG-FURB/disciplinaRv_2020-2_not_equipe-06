@@ -1,20 +1,18 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class MaterialPanner : MonoBehaviour
 {
-    private MeshRenderer mMeshRenderer = null;
-    private Vector2 mOffset = Vector2.zero;
+    private MeshRenderer _meshRenderer = null;
+    private Vector2 _offset = Vector2.zero;
 
-    void Awake()
+    public void Awake()
     {
-        mMeshRenderer = GetComponent<MeshRenderer>();
+        _meshRenderer = GetComponent<MeshRenderer>();
     }
 
-    void Update()
+    public void Update()
     {
-        mOffset.x += 0.075f * Time.deltaTime;
-        mMeshRenderer.material.SetTextureOffset("_MainTex", mOffset);
+        _offset.x += 0.075f * Time.deltaTime;
+        _meshRenderer.material.SetTextureOffset("_MainTex", _offset);
     }
 }
