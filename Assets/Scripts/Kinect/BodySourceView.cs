@@ -113,8 +113,7 @@ public class BodySourceView : MonoBehaviour
             LineRenderer lr = newJoint.AddComponent<LineRenderer>();
             lr.positionCount = 2;
             lr.material = BoneMaterial;
-            lr.startWidth  = 0.05f;
-            lr.endWidth  = 0.05f;
+            lr.startWidth = lr.endWidth = 0.20f;
         }
 
         return body;
