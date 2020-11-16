@@ -131,14 +131,14 @@ public class BodySourceView : MonoBehaviour
                 targetJoint = body.Joints[_boneMap[joint]];
 
             Transform jointObject = bodyObject.transform.Find(joint.ToString());
-            jointObject.position = GetVector3FromJoint(sourceJoint, z: 0);
+            jointObject.position = GetVector3FromJoint(sourceJoint);
 
             LineRenderer lr = jointObject.GetComponent<LineRenderer>();
 
             if (targetJoint.HasValue)
             {
                 lr.SetPosition(0, jointObject.localPosition);
-                lr.SetPosition(1, GetVector3FromJoint(targetJoint.Value, z: 0));
+                lr.SetPosition(1, GetVector3FromJoint(targetJoint.Value));
                 lr.startColor = this.Color;
                 lr.endColor = this.Color;
             }
