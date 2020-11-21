@@ -15,40 +15,68 @@ public class BodySourceView : MonoBehaviour
     private List<JointType> _joints = new List<JointType>
     {
         JointType.FootLeft,
-        JointType.FootRight,
-
+        JointType.AnkleLeft,
         JointType.KneeLeft,
+        JointType.HipLeft,
+
+        JointType.FootRight,
+        JointType.AnkleRight,
         JointType.KneeRight,
+        JointType.HipRight,
 
+        JointType.HandTipLeft,
+        JointType.ThumbLeft,
         JointType.HandLeft,
-        JointType.HandRight,
-
+        JointType.WristLeft,
         JointType.ElbowLeft,
+        JointType.ShoulderLeft,
+
+        
+        JointType.HandTipRight,
+        JointType.ThumbRight,
+        JointType.HandRight,
+        JointType.WristRight,
         JointType.ElbowRight,
+        JointType.ShoulderRight,
+
 
         JointType.SpineBase,
-        // Talvez mudar para Neck
+        JointType.SpineMid,
         JointType.SpineShoulder,
-
+        JointType.Neck,
         JointType.Head,
     };
 
     private Dictionary<JointType, JointType> _boneMap = new Dictionary<JointType, JointType>()
     {
-        { JointType.FootLeft, JointType.KneeLeft },
-        { JointType.KneeLeft, JointType.SpineBase },
+        { JointType.FootLeft, JointType.AnkleLeft },
+        { JointType.AnkleLeft, JointType.KneeLeft },
+        { JointType.KneeLeft, JointType.HipLeft },
+        { JointType.HipLeft, JointType.SpineBase },
 
-        { JointType.FootRight, JointType.KneeRight },
-        { JointType.KneeRight, JointType.SpineBase },
+        { JointType.FootRight, JointType.AnkleRight },
+        { JointType.AnkleRight, JointType.KneeRight },
+        { JointType.KneeRight, JointType.HipRight },
+        { JointType.HipRight, JointType.SpineBase },
 
-        { JointType.HandLeft, JointType.ElbowLeft },
-        { JointType.ElbowLeft, JointType.SpineShoulder },
+        { JointType.HandTipLeft, JointType.HandLeft },
+        { JointType.ThumbLeft, JointType.HandLeft },
+        { JointType.HandLeft, JointType.WristLeft },
+        { JointType.WristLeft, JointType.ElbowLeft },
+        { JointType.ElbowLeft, JointType.ShoulderLeft },
+        { JointType.ShoulderLeft, JointType.SpineShoulder },
 
-        { JointType.HandRight, JointType.ElbowRight },
-        { JointType.ElbowRight, JointType.SpineShoulder },
+        { JointType.HandTipRight, JointType.HandRight },
+        { JointType.ThumbRight, JointType.HandRight },
+        { JointType.HandRight, JointType.WristRight },
+        { JointType.WristRight, JointType.ElbowRight },
+        { JointType.ElbowRight, JointType.ShoulderRight },
+        { JointType.ShoulderRight, JointType.SpineShoulder },
 
-        { JointType.SpineBase, JointType.SpineShoulder },
-        { JointType.SpineShoulder, JointType.Head },
+        { JointType.SpineBase, JointType.SpineMid },
+        { JointType.SpineMid, JointType.SpineShoulder },
+        { JointType.SpineShoulder, JointType.Neck },
+        { JointType.Neck, JointType.Head },
     };
 
 
