@@ -79,7 +79,6 @@ public class BodySourceView : MonoBehaviour
         { JointType.Neck, JointType.Head },
     };
 
-
     public void Update()
     {
         (var data, var trackedIds) = GetKinectData();

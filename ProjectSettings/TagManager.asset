@@ -6,7 +6,7 @@ TagManager:
   tags:
   - Hand
   - Bubble
-  - Cano
+  - Pipe
   layers:
   - Default
   - TransparentFX
@@ -41,12 +41,6 @@ TagManager:
   - 
   - 
   m_SortingLayers:
-  - name: Background
-    uniqueID: 2898936425
-    locked: 0
   - name: Default
     uniqueID: 0
-    locked: 0
-  - name: Over
-    uniqueID: 2162729731
     locked: 0
