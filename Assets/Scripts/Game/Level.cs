@@ -117,9 +117,9 @@ public class Level : MonoBehaviour
 
     private Difficulty GetDifficulty()
     {
-        if (pipesSpawned >= 30) return Difficulty.Impossible;
-        if (pipesSpawned >= 20) return Difficulty.Hard;
-        if (pipesSpawned >= 10) return Difficulty.Medium;
+        if (pipesSpawned >= 20) return Difficulty.Impossible;
+        if (pipesSpawned >= 10) return Difficulty.Hard;
+        if (pipesSpawned >= 5) return Difficulty.Medium;
         return Difficulty.Easy;
     }
 

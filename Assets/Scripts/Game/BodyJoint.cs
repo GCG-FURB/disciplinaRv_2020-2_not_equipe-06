@@ -14,7 +14,7 @@ public class BodyJoint : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Pipe"))
         {
-            CMDebug.TextPopupMouse("encostou caralho ae porra");
+            CMDebug.TextPopupMouse("Perdeu!");
         }
     }
 }

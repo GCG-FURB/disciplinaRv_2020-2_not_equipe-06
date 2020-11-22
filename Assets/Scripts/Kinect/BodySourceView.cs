@@ -9,8 +9,8 @@ public class BodySourceView : MonoBehaviour
     public BodySourceManager BodySourceManager;
     public GameObject JointObject;
     public Material BoneMaterial;
-    public Color Color = Color.green;
 
+    private Color _color = Color.green;
     private Dictionary<ulong, GameObject> _bodies = new Dictionary<ulong, GameObject>();
     private List<JointType> _joints = new List<JointType>
     {
@@ -166,7 +166,7 @@ public class BodySourceView : MonoBehaviour
             {
                 lr.SetPosition(0, jointObject.localPosition);
                 lr.SetPosition(1, GetVector3FromJoint(targetJoint.Value));
-                lr.startColor = lr.endColor = this.Color;
+                lr.startColor = lr.endColor = this._color;
             }
             else
                 lr.enabled = false;

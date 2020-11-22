@@ -4,9 +4,8 @@
 TagManager:
   serializedVersion: 2
   tags:
-  - Hand
-  - Bubble
   - Pipe
+  - BodyJoint
   layers:
   - Default
   - TransparentFX

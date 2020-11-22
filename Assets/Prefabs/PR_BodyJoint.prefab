@@ -94,8 +94,8 @@ GameObject:
   - component: {fileID: 58161556273064410}
   - component: {fileID: 50476735779836974}
   m_Layer: 0
-  m_Name: PR_Hand
-  m_TagString: Hand
+  m_Name: PR_BodyJoint
+  m_TagString: BodyJoint
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
