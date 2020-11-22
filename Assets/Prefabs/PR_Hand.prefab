@@ -69,7 +69,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 99
   m_Sprite: {fileID: 21300000, guid: 7fc10c59c4de6c64399df9414b735833, type: 3}
   m_Color: {r: 0.09019608, g: 0.16862746, b: 0.3019608, a: 1}
   m_FlipX: 0
@@ -90,8 +90,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4551246133346816}
-  - component: {fileID: 58161556273064410}
   - component: {fileID: 114349096666611954}
+  - component: {fileID: 58161556273064410}
   - component: {fileID: 50476735779836974}
   m_Layer: 0
   m_Name: PR_Hand
@@ -115,6 +115,19 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &114349096666611954
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1581252307236616}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c0c50b56485b5834485bbac920bac237, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  HandMesh: {fileID: 4048595892630688}
 --- !u!58 &58161556273064410
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -131,19 +144,6 @@ CircleCollider2D:
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Radius: 0.5
---- !u!114 &114349096666611954
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1581252307236616}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c0c50b56485b5834485bbac920bac237, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  HandMesh: {fileID: 4048595892630688}
 --- !u!50 &50476735779836974
 Rigidbody2D:
   serializedVersion: 4

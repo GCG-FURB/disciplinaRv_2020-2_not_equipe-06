@@ -31,7 +31,7 @@ public class BodySourceView : MonoBehaviour
         JointType.ElbowLeft,
         JointType.ShoulderLeft,
 
-        
+
         JointType.HandTipRight,
         JointType.ThumbRight,
         JointType.HandRight,
@@ -141,7 +141,8 @@ public class BodySourceView : MonoBehaviour
             LineRenderer lr = newJoint.AddComponent<LineRenderer>();
             lr.positionCount = 2;
             lr.material = BoneMaterial;
-            lr.startWidth = lr.endWidth = 0.20f;
+            lr.startWidth = lr.endWidth = .2f;
+            lr.sortingOrder = 99;
         }
 
         return body;
@@ -166,8 +167,7 @@ public class BodySourceView : MonoBehaviour
             {
                 lr.SetPosition(0, jointObject.localPosition);
                 lr.SetPosition(1, GetVector3FromJoint(targetJoint.Value));
-                lr.startColor = this.Color;
-                lr.endColor = this.Color;
+                lr.startColor = lr.endColor = this.Color;
             }
             else
                 lr.enabled = false;
@@ -175,5 +175,5 @@ public class BodySourceView : MonoBehaviour
     }
 
     private Vector3 GetVector3FromJoint(Joint joint, int? x = null, int? y = null, int? z = null)
-        => new Vector3(x ?? joint.Position.X * 10, y ?? joint.Position.Y * 10, z ?? joint.Position.Z * 10);
+        => new Vector3(x ?? (joint.Position.X * 10), y ?? (joint.Position.Y * 10), z ?? (joint.Position.Z * 10));
 }

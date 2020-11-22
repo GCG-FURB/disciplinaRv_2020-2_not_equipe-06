@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using CodeMonkey;
+using UnityEngine;
 
 public class Hand : MonoBehaviour
 {
@@ -11,10 +12,7 @@ public class Hand : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.gameObject.CompareTag("Bubble"))
-        {
-            Bubble bubble = collision.gameObject.GetComponent<Bubble>();
-            StartCoroutine(bubble.Pop());
-        }
+        if (collision.gameObject.CompareTag("Cano"))
+            CMDebug.TextPopupMouse("encostou caralho ae porra");
     }
 }
