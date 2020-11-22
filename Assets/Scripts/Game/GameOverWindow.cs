@@ -20,7 +20,7 @@ public class GameOverWindow : MonoBehaviour
         transform.Find(RETRY_BUTTON).GetComponent<Button_UI>().ClickFunc = () =>
         {
             Loader.Load(Scene.Loading);
-            Loader.Load(Scene.MainScene);
+            Loader.Load(Scene.Game);
         };
 
         Hide();

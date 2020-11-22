@@ -1,6 +1,6 @@
 ﻿public enum Scene
 {
-    MainScene,
+    Game,
     Loading,
     Menu
 }

@@ -12,7 +12,7 @@ public class MenuWindow : MonoBehaviour
     {
         transform.Find(PLAY_BUTTON).GetComponent<Button_UI>().ClickFunc = () =>
         {
-            Loader.Load(Scene.MainScene);
+            Loader.Load(Scene.Game);
         };
 
 
