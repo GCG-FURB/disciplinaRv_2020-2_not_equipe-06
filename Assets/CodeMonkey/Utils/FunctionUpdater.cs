@@ -14,7 +14,7 @@ using System;
 using UnityEngine;
 using System.Collections.Generic;
 
-namespace CodeMonkey.Utils {
+namespace CodeMonkey {
 
     /*
      * Calls function on every Update until it returns true
@@ -74,17 +74,14 @@ namespace CodeMonkey.Utils {
             return functionUpdater;
         }
         private static void RemoveUpdater(FunctionUpdater funcUpdater) {
-            InitIfNeeded();
             updaterList.Remove(funcUpdater);
         }
         public static void DestroyUpdater(FunctionUpdater funcUpdater) {
-            InitIfNeeded();
             if (funcUpdater != null) {
                 funcUpdater.DestroySelf();
             }
         }
         public static void StopUpdaterWithName(string functionName) {
-            InitIfNeeded();
             for (int i = 0; i < updaterList.Count; i++) {
                 if (updaterList[i].functionName == functionName) {
                     updaterList[i].DestroySelf();
@@ -93,7 +90,6 @@ namespace CodeMonkey.Utils {
             }
         }
         public static void StopAllUpdatersWithName(string functionName) {
-            InitIfNeeded();
             for (int i = 0; i < updaterList.Count; i++) {
                 if (updaterList[i].functionName == functionName) {
                     updaterList[i].DestroySelf();

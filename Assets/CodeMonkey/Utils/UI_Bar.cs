@@ -10,6 +10,8 @@
     --------------------------------------------------
  */
 
+//#define TOOLTIP_UI // Has Tooltip_UI in project
+
 using System;
 using UnityEngine;
 using UnityEngine.UI;
@@ -124,6 +126,11 @@ namespace CodeMonkey.Utils {
                 buttonUI.MouseOutOnceFunc = MouseOutOnceFunc;
             return buttonUI;
         }
+#if TOOLTIP_UI
+        public void AddTooltip(Func<string> getTooltip) {
+            Tooltip_UI.AddTip(this, getTooltip);
+        }
+#endif
 
     }
 

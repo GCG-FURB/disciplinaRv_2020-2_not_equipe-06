@@ -15,7 +15,7 @@ public class BodyJoint : MonoBehaviour
     public bool GetHasOnDiedEvent() => hasOnDiedEvent;
 
     private static List<BodyJoint> _joints;
-    
+
     private void Awake()
     {
         if (_joints == null)
@@ -33,7 +33,11 @@ public class BodyJoint : MonoBehaviour
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.gameObject.CompareTag("Pipe"))
+        {
+            if (Level.GetInstance().GetState() != GameState.Dead)
+                SoundManager.PlaySound(Sounds.Lose);
             OnDied?.Invoke(this, EventArgs.Empty);
+        }
     }
 
     public static List<BodyJoint> GetJoints() => _joints;

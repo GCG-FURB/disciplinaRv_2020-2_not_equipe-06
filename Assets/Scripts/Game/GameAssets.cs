@@ -10,6 +10,8 @@ public class GameAssets : MonoBehaviour
     public Transform PipeBody;
     #endregion Assets
 
+    public SoundAudioClip[] SoundAudioClips;
+
     private static GameAssets _instance;
 
     public static GameAssets GetInstance() => _instance;

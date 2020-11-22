@@ -79,8 +79,11 @@ public class Level : MonoBehaviour
             pipe.Move(PIPE_MOVE_SPEED);
 
             if (isToTheRight && pipe.XPosition <= PERSON_POSITION && pipe.IsBottom)
+            {
                 points++;
-
+                SoundManager.PlaySound(Sounds.Score);
+            }
+                
             if (pipe.XPosition < CAMERA_LEFT_EDGE)
             {
                 pipe.DestroySelf();

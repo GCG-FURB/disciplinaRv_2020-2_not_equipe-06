@@ -14,7 +14,7 @@ using System;
 using UnityEngine;
 using System.Collections.Generic;
 
-namespace CodeMonkey.Utils {
+namespace CodeMonkey {
 
     /*
      * Triggers a Action after a certain time 
@@ -73,11 +73,9 @@ namespace CodeMonkey.Utils {
             return funcTimer;
         }
         public static void RemoveTimer(FunctionTimer funcTimer) {
-            InitIfNeeded();
             timerList.Remove(funcTimer);
         }
         public static void StopAllTimersWithName(string functionName) {
-            InitIfNeeded();
             for (int i = 0; i < timerList.Count; i++) {
                 if (timerList[i].functionName == functionName) {
                     timerList[i].DestroySelf();
@@ -86,7 +84,6 @@ namespace CodeMonkey.Utils {
             }
         }
         public static void StopFirstTimerWithName(string functionName) {
-            InitIfNeeded();
             for (int i = 0; i < timerList.Count; i++) {
                 if (timerList[i].functionName == functionName) {
                     timerList[i].DestroySelf();
