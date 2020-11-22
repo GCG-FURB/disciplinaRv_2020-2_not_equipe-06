@@ -19,7 +19,8 @@ public class GameOverWindow : MonoBehaviour
 
         transform.Find(RETRY_BUTTON).GetComponent<Button_UI>().ClickFunc = () =>
         {
-            UnityEngine.SceneManagement.SceneManager.LoadScene("MainScene");
+            Loader.Load(Scene.Loading);
+            Loader.Load(Scene.MainScene);
         };
 
         Hide();
