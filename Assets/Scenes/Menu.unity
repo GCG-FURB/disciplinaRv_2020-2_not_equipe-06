@@ -696,7 +696,7 @@ AudioListener:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1090208467}
-  m_Enabled: 1
+  m_Enabled: 0
 --- !u!20 &1090208469
 Camera:
   m_ObjectHideFlags: 0
@@ -1096,7 +1096,7 @@ SpriteRenderer:
   m_Color: {r: 0.123398006, g: 0.4433962, b: 0.24874581, a: 1}
   m_FlipX: 0
   m_FlipY: 0
-  m_DrawMode: 0
+  m_DrawMode: 1
   m_Size: {x: 1.6, y: 102.4}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
@@ -1111,8 +1111,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2102928855}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.23, y: 0.9, z: 10}
-  m_LocalScale: {x: 111.265816, y: 0.97491693, z: 1}
+  m_LocalPosition: {x: 0.007, y: 1.004, z: 10}
+  m_LocalScale: {x: 111.0855, y: 0.9766096, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 2

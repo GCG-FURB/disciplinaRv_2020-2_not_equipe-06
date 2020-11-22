@@ -10,6 +10,7 @@ public class GameOverWindow : MonoBehaviour
 
     private const string SCORE_TEXT = "ScoreText";
     private const string RETRY_BUTTON = "RetryButton";
+    private const string MENU_BUTTON = "MenuButton";
     private Text _scoreText;
 
     private void Awake()
@@ -19,8 +20,12 @@ public class GameOverWindow : MonoBehaviour
 
         transform.Find(RETRY_BUTTON).GetComponent<Button_UI>().ClickFunc = () =>
         {
-            Loader.Load(Scene.Loading);
             Loader.Load(Scene.Game);
+        };
+
+        transform.Find(MENU_BUTTON).GetComponent<Button_UI>().ClickFunc = () =>
+        {
+            Loader.Load(Scene.Menu);
         };
 
         Hide();
