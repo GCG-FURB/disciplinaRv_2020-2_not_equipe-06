@@ -1,6 +1,4 @@
-﻿using CodeMonkey;
-using CodeMonkey.Utils;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
@@ -169,6 +167,7 @@ public class Level : MonoBehaviour
 
     private void EndGame()
     {
+        Score.TrySetNewHighScore(points);
         GameOverWindow.GetInstance().Show();
     }
 
