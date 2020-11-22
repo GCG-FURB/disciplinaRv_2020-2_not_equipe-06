@@ -1,9 +1,8 @@
 ﻿using CodeMonkey;
-using System;
+using CodeMonkey.Utils;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
-using Windows.Kinect;
 
 public class Level : MonoBehaviour
 {
@@ -23,30 +22,39 @@ public class Level : MonoBehaviour
     private int points;
     private GameState state;
 
-    private int count = 0;
-
     private void Awake()
     {
         _instance = this;
         pipes = new List<Pipe>();
         SetDifficulty(Difficulty.Easy);
-        state = GameState.Playing;
+        state = GameState.Waiting;
     }
 
     private void Update()
     {
         SetOnDiedEvent();
+        bool havePlayers = BodySourceView.GetInstance().GetBodies().Any();
 
         if (state == GameState.Playing)
         {
             HandlePipeMoviment();
             HandlePipeSpawning();
+
+            if (!havePlayers)
+                state = GameState.Waiting;
+        }
+        else if (state == GameState.Waiting)
+        {
+            if (havePlayers)
+                state = GameState.Playing;
         }
     }
 
     public static Level GetInstance() => _instance;
 
     public int GetPoints() => points;
+
+    public GameState GetState() => state;
 
     private void SetOnDiedEvent()
     {
@@ -57,8 +65,6 @@ public class Level : MonoBehaviour
             {
                 joint.OnDied += OnDied;
                 joint.SetHasOnDiedEvent();
-                count++;
-                Debug.Log(count);
             }
     }
 
@@ -160,7 +166,7 @@ public class Level : MonoBehaviour
 
     private void EndGame()
     {
-        CMDebug.TextPopupMouse("Perdeu!");
+        GameOverWindow.GetInstance().Show();
     }
 
     private class Pipe

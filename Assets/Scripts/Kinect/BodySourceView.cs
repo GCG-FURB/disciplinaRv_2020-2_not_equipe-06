@@ -6,6 +6,8 @@ using Joint = Windows.Kinect.Joint;
 
 public class BodySourceView : MonoBehaviour
 {
+    private static BodySourceView _instance;
+
     public BodySourceManager BodySourceManager;
     public GameObject JointObject;
     public Material BoneMaterial;
@@ -78,6 +80,11 @@ public class BodySourceView : MonoBehaviour
         { JointType.SpineShoulder, JointType.Neck },
         { JointType.Neck, JointType.Head },
     };
+
+    private void Awake()
+    {
+        _instance = this;
+    }
 
     public void Update()
     {
@@ -172,6 +179,10 @@ public class BodySourceView : MonoBehaviour
                 lr.enabled = false;
         }
     }
+
+    public static BodySourceView GetInstance() => _instance;
+
+    public IEnumerable<GameObject> GetBodies() => _bodies.Values;
 
     private Vector3 GetVector3FromJoint(Joint joint, int? x = null, int? y = null, int? z = null)
         => new Vector3(x ?? (joint.Position.X * 10), y ?? (joint.Position.Y * 10), z ?? (joint.Position.Z * 10));

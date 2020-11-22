@@ -13,6 +13,7 @@ public class ScoreWindow : MonoBehaviour
 
     private void Update()
     {
-        _scoreText.text = Level.GetInstance().GetPoints().ToString();
+        if (Level.GetInstance() != null)
+            _scoreText.text = Level.GetInstance().GetPoints().ToString();
     }
 }
