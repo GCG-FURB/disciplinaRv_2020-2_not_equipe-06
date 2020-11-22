@@ -3,27 +3,27 @@ using UnityEngine;
 
 public class Level : MonoBehaviour
 {
+    private static Level _instance;
+
     private const float CAMERA_SIZE = 50f;
     private const float PIPE_MOVE_SPEED = 25f;
     private const float CAMERA_LEFT_EDGE = -100f;
     private const float CAMERA_RIGHT_EDGE = 100f;
+    private const float PERSON_POSITION = 0f;
 
     private List<Pipe> pipes;
     private int pipesSpawned;
     private float pipeSpawnTimer;
     private float pipeSpawnTimerMax;
     private float gap;
+    private int points;
 
     private void Awake()
     {
+        _instance = this;
         pipes = new List<Pipe>();
         gap = 30f;
         pipeSpawnTimerMax = 1.5f;
-    }
-
-    private void Start()
-    {
-
     }
 
     private void Update()
@@ -32,13 +32,22 @@ public class Level : MonoBehaviour
         HandlePipeSpawning();
     }
 
+    public static Level GetInstance() => _instance;
+
+    public int GetPoints() => points;
+
     private void HandlePipeMoviment()
     {
         for (int i = 0; i < pipes.Count; i++)
         {
             var pipe = pipes[i];
 
+            bool isToTheRight = pipe.XPosition > PERSON_POSITION;
+
             pipe.Move(PIPE_MOVE_SPEED);
+
+            if (isToTheRight && pipe.XPosition <= PERSON_POSITION && pipe.IsBottom)
+                points++;
 
             if (pipe.XPosition < CAMERA_LEFT_EDGE)
             {
@@ -129,11 +138,13 @@ public class Level : MonoBehaviour
 
         private Transform _head;
         private Transform _body;
+        public bool IsBottom { get; private set; }
 
         public Pipe(float height, float xPosition, bool createOnBottom)
         {
             CreateHead(height, xPosition, createOnBottom);
             CreateBody(height, xPosition, createOnBottom);
+            IsBottom = createOnBottom;
         }
 
         private void CreateHead(float height, float xPosition, bool createOnBottom)
