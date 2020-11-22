@@ -787,8 +787,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   hoverBehaviourType: 1
-  hoverBehaviour_Color_Enter: {r: 0.5943396, g: 0.11494303, b: 0.11494303, a: 0}
-  hoverBehaviour_Color_Exit: {r: 0.007843138, g: 0.2392157, b: 0.32941177, a: 0}
+  hoverBehaviour_Color_Enter: {r: 0.007843138, g: 0.2392157, b: 0.32941177, a: 0}
+  hoverBehaviour_Color_Exit: {r: 0.08966714, g: 0.46636075, b: 0.6132076, a: 0}
   hoverBehaviour_Image: {fileID: 1226496325}
   hoverBehaviour_Sprite_Exit: {fileID: 0}
   hoverBehaviour_Sprite_Enter: {fileID: 0}
