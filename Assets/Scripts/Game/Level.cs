@@ -1,5 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using CodeMonkey;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
+using Windows.Kinect;
 
 public class Level : MonoBehaviour
 {
@@ -17,24 +21,46 @@ public class Level : MonoBehaviour
     private float pipeSpawnTimerMax;
     private float gap;
     private int points;
+    private GameState state;
+
+    private int count = 0;
 
     private void Awake()
     {
         _instance = this;
         pipes = new List<Pipe>();
-        gap = 30f;
-        pipeSpawnTimerMax = 1.5f;
+        SetDifficulty(Difficulty.Easy);
+        state = GameState.Playing;
     }
 
     private void Update()
     {
-        HandlePipeMoviment();
-        HandlePipeSpawning();
+        SetOnDiedEvent();
+
+        if (state == GameState.Playing)
+        {
+            HandlePipeMoviment();
+            HandlePipeSpawning();
+        }
     }
 
     public static Level GetInstance() => _instance;
 
     public int GetPoints() => points;
+
+    private void SetOnDiedEvent()
+    {
+        var bodyJoints = BodyJoint.GetJoints();
+
+        if (bodyJoints != null)
+            foreach (var joint in bodyJoints.Where(x => !x.GetHasOnDiedEvent()))
+            {
+                joint.OnDied += OnDied;
+                joint.SetHasOnDiedEvent();
+                count++;
+                Debug.Log(count);
+            }
+    }
 
     private void HandlePipeMoviment()
     {
@@ -67,7 +93,7 @@ public class Level : MonoBehaviour
             float totalHeight = CAMERA_SIZE * 2f;
             float maxHeight = totalHeight - gap * .5f - heightEdgeLimit;
 
-            return Random.Range(minHeight, maxHeight);
+            return UnityEngine.Random.Range(minHeight, maxHeight);
         }
 
         pipeSpawnTimer -= Time.deltaTime;
@@ -110,7 +136,8 @@ public class Level : MonoBehaviour
                 break;
             case Difficulty.Easy:
             default:
-                // Definidos no Awake
+                gap = 30f;
+                pipeSpawnTimerMax = 1.5f;
                 break;
         }
     }
@@ -123,12 +150,17 @@ public class Level : MonoBehaviour
         return Difficulty.Easy;
     }
 
-    private enum Difficulty
+    private void OnDied(object sender, System.EventArgs e)
     {
-        Easy,
-        Medium,
-        Hard,
-        Impossible
+        if (state != GameState.Dead)
+            EndGame();
+
+        state = GameState.Dead;
+    }
+
+    private void EndGame()
+    {
+        CMDebug.TextPopupMouse("Perdeu!");
     }
 
     private class Pipe

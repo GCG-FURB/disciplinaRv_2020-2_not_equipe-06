@@ -1,9 +1,29 @@
 ﻿using CodeMonkey;
+using System;
+using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 public class BodyJoint : MonoBehaviour
 {
     public Transform BodyMesh;
+    public event EventHandler OnDied;
+
+    private bool hasOnDiedEvent;
+
+    public void SetHasOnDiedEvent(bool value = true) => hasOnDiedEvent = value;
+    public bool GetHasOnDiedEvent() => hasOnDiedEvent;
+
+    private static List<BodyJoint> _joints;
+    
+    private void Awake()
+    {
+        if (_joints == null)
+            _joints = new List<BodyJoint>();
+
+        if (!_joints.Contains(this))
+            _joints.Add(this);
+    }
 
     private void Update()
     {
@@ -13,8 +33,8 @@ public class BodyJoint : MonoBehaviour
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.gameObject.CompareTag("Pipe"))
-        {
-            CMDebug.TextPopupMouse("Perdeu!");
-        }
+            OnDied?.Invoke(this, EventArgs.Empty);
     }
+
+    public static List<BodyJoint> GetJoints() => _joints;
 }
