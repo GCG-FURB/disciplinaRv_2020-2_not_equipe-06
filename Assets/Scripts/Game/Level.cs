@@ -7,22 +7,31 @@ public class Level : MonoBehaviour
     private static Level _instance;
 
     private const float CAMERA_SIZE = 50f;
-    private const float PIPE_MOVE_SPEED = 25f;
+    private const float MOVE_SPEED = 25f;
     private const float CAMERA_LEFT_EDGE = -100f;
     private const float CAMERA_RIGHT_EDGE = 100f;
+    private const float GROUND_DESTROY_X_POSITION = -200f;
+    private const float CLOUD_DESTROY_X_POSITION = -160f;
+    private const float CLOUD_SPAWN_X_POSITION = +160f;
+    private const float CLOUD_SPAWN_Y_POSITION = +30f;
     private const float PERSON_POSITION = 0f;
 
+    private List<Transform> grounds;
+    private List<Transform> clouds;
     private List<Pipe> pipes;
     private int pipesSpawned;
     private float pipeSpawnTimer;
     private float pipeSpawnTimerMax;
-    private float gap;
+    private float gap; 
+    private float cloudSpawnTimer;
     private int points;
     private GameState state;
 
     private void Awake()
     {
         _instance = this;
+        SpawnInitialGround();
+        SpawnInitialClouds();
         pipes = new List<Pipe>();
         SetDifficulty(Difficulty.Easy);
         state = GameState.Waiting;
@@ -35,8 +44,10 @@ public class Level : MonoBehaviour
 
         if (state == GameState.Playing)
         {
-            HandlePipeMoviment();
+            HandlePipeMovement();
             HandlePipeSpawning();
+            HandleGround();
+            HandleClouds();
 
             if (!havePlayers)
                 state = GameState.Waiting;
@@ -66,7 +77,7 @@ public class Level : MonoBehaviour
             }
     }
 
-    private void HandlePipeMoviment()
+    private void HandlePipeMovement()
     {
         for (int i = 0; i < pipes.Count; i++)
         {
@@ -74,14 +85,14 @@ public class Level : MonoBehaviour
 
             bool isToTheRight = pipe.XPosition > PERSON_POSITION;
 
-            pipe.Move(PIPE_MOVE_SPEED);
+            pipe.Move(MOVE_SPEED);
 
             if (isToTheRight && pipe.XPosition <= PERSON_POSITION && pipe.IsBottom)
             {
                 points++;
                 SoundManager.PlaySound(Sounds.Score);
             }
-                
+
             if (pipe.XPosition < CAMERA_LEFT_EDGE)
             {
                 pipe.DestroySelf();
@@ -124,6 +135,84 @@ public class Level : MonoBehaviour
 
     private void CreatePipe(float height, float xPosition, bool createOnBottom = true)
         => pipes.Add(new Pipe(height, xPosition, createOnBottom));
+
+    private void SpawnInitialGround()
+    {
+        grounds = new List<Transform>();
+        Transform groundTransform;
+        float groundY = -47.5f;
+        float groundWidth = 192f;
+        groundTransform = Instantiate(GameAssets.GetInstance().Ground, new Vector3(0, groundY, 0), Quaternion.identity);
+        grounds.Add(groundTransform);
+        groundTransform = Instantiate(GameAssets.GetInstance().Ground, new Vector3(groundWidth, groundY, 0), Quaternion.identity);
+        grounds.Add(groundTransform);
+        groundTransform = Instantiate(GameAssets.GetInstance().Ground, new Vector3(groundWidth * 2f, groundY, 0), Quaternion.identity);
+        grounds.Add(groundTransform);
+    }
+
+    private void HandleGround()
+    {
+
+        foreach (var ground in grounds)
+        {
+            ground.position += new Vector3(-1, 0, 0) * MOVE_SPEED * Time.deltaTime;
+
+            if (ground.position.x < GROUND_DESTROY_X_POSITION)
+            {
+                float rightMostXPosition = -100f;
+                for (int i = 0; i < grounds.Count; i++)
+                    if (grounds[i].position.x > rightMostXPosition)
+                        rightMostXPosition = grounds[i].position.x;
+
+                float groundWidth = 192f;
+                ground.position = new Vector3(rightMostXPosition + groundWidth, ground.position.y, ground.position.z);
+            }
+        }
+    }
+
+    private void SpawnInitialClouds()
+    {
+        clouds = new List<Transform>();
+        Transform cloudTransform;
+        cloudTransform = Instantiate(GetCloudPrefabTransform(), new Vector3(0, CLOUD_SPAWN_Y_POSITION, 0), Quaternion.identity);
+        clouds.Add(cloudTransform);
+    }
+
+    private Transform GetCloudPrefabTransform()
+    {
+        switch (Random.Range(0, 3))
+        {
+            default:
+            case 0: return GameAssets.GetInstance().Clouds1;
+            case 1: return GameAssets.GetInstance().Clouds2;
+            case 2: return GameAssets.GetInstance().Clouds3;
+        }
+    }
+
+    private void HandleClouds()
+    {
+        cloudSpawnTimer -= Time.deltaTime;
+        if (cloudSpawnTimer < 0)
+        {
+            float cloudSpawnTimerMax = 6f;
+            cloudSpawnTimer = cloudSpawnTimerMax;
+            Transform cloudTransform = Instantiate(GetCloudPrefabTransform(), new Vector3(CLOUD_SPAWN_X_POSITION, CLOUD_SPAWN_Y_POSITION, 0), Quaternion.identity);
+            clouds.Add(cloudTransform);
+        }
+
+        for (int i = 0; i < clouds.Count; i++)
+        {
+            Transform cloudTransform = clouds[i];
+            cloudTransform.position += new Vector3(-1, 0, 0) * MOVE_SPEED * Time.deltaTime * .7f;
+
+            if (cloudTransform.position.x < CLOUD_DESTROY_X_POSITION)
+            {
+                Destroy(cloudTransform.gameObject);
+                clouds.RemoveAt(i);
+                i--;
+            }
+        }
+    }
 
     private void SetDifficulty(Difficulty difficulty)
     {

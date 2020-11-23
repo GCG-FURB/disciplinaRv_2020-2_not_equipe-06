@@ -1759,6 +1759,30 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 421237088}
     m_Modifications:
+    - target: {fileID: 3078282863525161938, guid: 9967af79d71882c4292bd2e0bd9e3a90,
+        type: 3}
+      propertyPath: Ground
+      value: 
+      objectReference: {fileID: 7242957281382876864, guid: 69d1648d278039646868f7c9645c3840,
+        type: 3}
+    - target: {fileID: 3078282863525161938, guid: 9967af79d71882c4292bd2e0bd9e3a90,
+        type: 3}
+      propertyPath: Clouds1
+      value: 
+      objectReference: {fileID: 3551965256347980359, guid: 5e0cd78fc8737d5428b2562b7a338a79,
+        type: 3}
+    - target: {fileID: 3078282863525161938, guid: 9967af79d71882c4292bd2e0bd9e3a90,
+        type: 3}
+      propertyPath: Clouds2
+      value: 
+      objectReference: {fileID: 3551965256347980359, guid: 41d40ba7dcb2b5148b5aab18192df6ff,
+        type: 3}
+    - target: {fileID: 3078282863525161938, guid: 9967af79d71882c4292bd2e0bd9e3a90,
+        type: 3}
+      propertyPath: Clouds3
+      value: 
+      objectReference: {fileID: 3551965256347980359, guid: 2f207c7cb2e5d8144b11bfa8987edaad,
+        type: 3}
     - target: {fileID: 3078282863525161939, guid: 9967af79d71882c4292bd2e0bd9e3a90,
         type: 3}
       propertyPath: m_LocalPosition.x

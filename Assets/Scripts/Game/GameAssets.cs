@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class GameAssets : MonoBehaviour
 {
@@ -8,6 +6,10 @@ public class GameAssets : MonoBehaviour
     public Sprite PipeHeadSprite;
     public Transform PipeHead;
     public Transform PipeBody;
+    public Transform Ground;
+    public Transform Clouds1;
+    public Transform Clouds2;
+    public Transform Clouds3;
     #endregion Assets
 
     public SoundAudioClip[] SoundAudioClips;
