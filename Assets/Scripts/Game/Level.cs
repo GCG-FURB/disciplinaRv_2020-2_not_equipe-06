@@ -22,7 +22,7 @@ public class Level : MonoBehaviour
     private int pipesSpawned;
     private float pipeSpawnTimer;
     private float pipeSpawnTimerMax;
-    private float gap; 
+    private float gap;
     private float cloudSpawnTimer;
     private int points;
     private GameState state;
@@ -32,9 +32,21 @@ public class Level : MonoBehaviour
         _instance = this;
         SpawnInitialGround();
         SpawnInitialClouds();
+        Restart();
+    }
+
+    public void Restart()
+    {
+        if (pipes != null)
+            foreach (var pipe in pipes)
+                pipe.DestroySelf();
+
+        GameOverWindow.GetInstance()?.Hide();
+
         pipes = new List<Pipe>();
         SetDifficulty(Difficulty.Easy);
         state = GameState.Waiting;
+        points = 0;
     }
 
     private void Update()

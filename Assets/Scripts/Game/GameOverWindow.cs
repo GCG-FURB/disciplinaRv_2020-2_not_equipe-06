@@ -21,7 +21,7 @@ public class GameOverWindow : MonoBehaviour
 
         transform.Find(RETRY_BUTTON).GetComponent<Button_UI>().ClickFunc = () =>
         {
-            Loader.Load(Scene.Game);
+            Level.GetInstance().Restart();
         };
 
         transform.Find(MENU_BUTTON).GetComponent<Button_UI>().ClickFunc = () =>
@@ -45,7 +45,7 @@ public class GameOverWindow : MonoBehaviour
 
     public static GameOverWindow GetInstance() => _instance;
 
-    private void Hide() => gameObject.SetActive(false);
+    public void Hide() => gameObject.SetActive(false);
 
     public void Show() => gameObject.SetActive(true);
 }
