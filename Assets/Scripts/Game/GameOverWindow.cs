@@ -9,7 +9,6 @@ public class GameOverWindow : MonoBehaviour
     private const string SCORE_TEXT = "ScoreText";
     private const string HIGHSCORE_TEXT = "HighScoreText";
     private const string RETRY_BUTTON = "RetryButton";
-    private const string MENU_BUTTON = "MenuButton";
     private Text _scoreText;
     private Text _highscoreText;
 
@@ -19,15 +18,7 @@ public class GameOverWindow : MonoBehaviour
         _scoreText = transform.Find(SCORE_TEXT).GetComponent<Text>();
         _highscoreText = transform.Find(HIGHSCORE_TEXT).GetComponent<Text>();
 
-        transform.Find(RETRY_BUTTON).GetComponent<Button_UI>().ClickFunc = () =>
-        {
-            Level.GetInstance().Restart();
-        };
-
-        transform.Find(MENU_BUTTON).GetComponent<Button_UI>().ClickFunc = () =>
-        {
-            Loader.Load(Scene.Menu);
-        };
+        transform.Find(RETRY_BUTTON).GetComponent<Button_UI>().ClickFunc = Level.GetInstance().Restart;
 
         Hide();
     }
