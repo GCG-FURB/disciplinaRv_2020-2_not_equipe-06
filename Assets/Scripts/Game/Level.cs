@@ -7,7 +7,6 @@ public class Level : MonoBehaviour
     private static Level _instance;
 
     private const float CAMERA_SIZE = 50f;
-    private const float MOVE_SPEED = 25f;
     private const float CAMERA_LEFT_EDGE = -100f;
     private const float CAMERA_RIGHT_EDGE = 100f;
     private const float GROUND_DESTROY_X_POSITION = -200f;
@@ -22,6 +21,7 @@ public class Level : MonoBehaviour
     private int pipesSpawned;
     private float pipeSpawnTimer;
     private float pipeSpawnTimerMax;
+    private float moveSpeed;
     private float gap;
     private float cloudSpawnTimer;
     private int points;
@@ -43,10 +43,10 @@ public class Level : MonoBehaviour
 
         GameOverWindow.GetInstance()?.Hide();
 
+        state = GameState.Starting;
         pipes = new List<Pipe>();
         SetDifficulty(Difficulty.Easy);
-        state = GameState.Waiting;
-        points = 0;
+        pipesSpawned = points = 0;
     }
 
     private void Update()
@@ -54,20 +54,24 @@ public class Level : MonoBehaviour
         SetOnDiedEvent();
         bool havePlayers = BodySourceView.GetInstance().GetBodies().Any();
 
-        if (state == GameState.Playing)
+        switch (state)
         {
-            HandlePipeMovement();
-            HandlePipeSpawning();
-            HandleGround();
-            HandleClouds();
+            case GameState.Starting:
+            case GameState.Waiting:
+                if (havePlayers)
+                    state = GameState.Playing;
+                break;
+            case GameState.Playing:
+                HandlePipeMovement();
+                HandlePipeSpawning();
+                HandleGround();
+                HandleClouds();
 
-            if (!havePlayers)
-                state = GameState.Waiting;
-        }
-        else if (state == GameState.Waiting)
-        {
-            if (havePlayers)
-                state = GameState.Playing;
+                if (!havePlayers)
+                    state = GameState.Waiting;
+                break;
+            default:
+                break;
         }
     }
 
@@ -97,7 +101,7 @@ public class Level : MonoBehaviour
 
             bool isToTheRight = pipe.XPosition > PERSON_POSITION;
 
-            pipe.Move(MOVE_SPEED);
+            pipe.Move(moveSpeed);
 
             if (isToTheRight && pipe.XPosition <= PERSON_POSITION && pipe.IsBottom)
             {
@@ -167,7 +171,7 @@ public class Level : MonoBehaviour
 
         foreach (var ground in grounds)
         {
-            ground.position += new Vector3(-1, 0, 0) * MOVE_SPEED * Time.deltaTime;
+            ground.position += new Vector3(-1, 0, 0) * moveSpeed * Time.deltaTime;
 
             if (ground.position.x < GROUND_DESTROY_X_POSITION)
             {
@@ -215,7 +219,7 @@ public class Level : MonoBehaviour
         for (int i = 0; i < clouds.Count; i++)
         {
             Transform cloudTransform = clouds[i];
-            cloudTransform.position += new Vector3(-1, 0, 0) * MOVE_SPEED * Time.deltaTime * .7f;
+            cloudTransform.position += new Vector3(-1, 0, 0) * moveSpeed * Time.deltaTime * .7f;
 
             if (cloudTransform.position.x < CLOUD_DESTROY_X_POSITION)
             {
@@ -232,20 +236,24 @@ public class Level : MonoBehaviour
         {
             case Difficulty.Impossible:
                 gap = 15f;
-                pipeSpawnTimerMax = 1f;
+                pipeSpawnTimerMax = 2f;
+                moveSpeed = 10f;
                 break;
             case Difficulty.Hard:
-                gap = 20f;
-                pipeSpawnTimerMax = 1.15f;
+                gap = 20f; 
+                pipeSpawnTimerMax = 1.85f;
+                moveSpeed = 15f;
                 break;
             case Difficulty.Medium:
-                gap = 25f;
-                pipeSpawnTimerMax = 1.35f;
+                gap = 25f; 
+                pipeSpawnTimerMax = 1.65f;
+                moveSpeed = 20f;
                 break;
             case Difficulty.Easy:
             default:
                 gap = 30f;
                 pipeSpawnTimerMax = 1.5f;
+                moveSpeed = 25f;
                 break;
         }
     }

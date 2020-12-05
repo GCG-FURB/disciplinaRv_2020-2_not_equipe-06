@@ -125,12 +125,18 @@ public class BodySourceView : MonoBehaviour
 
     private void CreateOrUpdateBodies(Body[] data)
     {
+        // var inputModule = KinectInputModule.GetInstance();
+        // var currentState = Level.GetInstance().GetState();
+        
         foreach (var body in data.Where(body => body.IsTracked))
         {
             if (!_bodies.ContainsKey(body.TrackingId))
                 _bodies[body.TrackingId] = CreateBodyObject(body.TrackingId);
 
             UpdateBodyObject(body, _bodies[body.TrackingId]);
+
+            //if (currentState == GameState.Dead || currentState == GameState.Starting)
+            //    inputModule.TrackBody(body);
         }
     }
 
