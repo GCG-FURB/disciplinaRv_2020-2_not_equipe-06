@@ -36,4 +36,4 @@ Realidade Virtual, 2020/02.
 Fundação Universidade Regional de Blumenau ([FURB](http://www.furb.br/))
 
 ## License
-[MIT](https://choosealicense.com/licenses/mit/)
+GNU GENERAL PUBLIC LICENSE
