@@ -85,6 +85,12 @@ public class Level : MonoBehaviour
 
     public GameState GetState() => state;
 
+    public static bool IsInitializingOrDead => new GameState[] { GameState.Starting, GameState.Dead }.Contains(_instance?.GetState() ?? GameState.Starting);
+
+    public static bool IsInitializing => (_instance?.GetState() ?? GameState.Starting) == GameState.Starting;
+    
+    public static bool IsDead => (_instance?.GetState() ?? GameState.Starting) == GameState.Dead;
+
     private void SetOnDiedEvent()
     {
         var bodyJoints = BodyJoint.GetJoints();
@@ -280,8 +286,8 @@ public class Level : MonoBehaviour
 
     private void EndGame()
     {
-        Score.TrySetNewHighScore(points);
-        GameOverWindow.GetInstance().Show();
+        var newHighscore = Score.TrySetNewHighScore(points);
+        GameOverWindow.GetInstance().Show(newHighscore);
     }
 
     private class Pipe

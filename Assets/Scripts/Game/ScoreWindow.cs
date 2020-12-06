@@ -1,29 +1,28 @@
 ﻿using UnityEngine;
-using UnityEngine.SocialPlatforms.Impl;
 using UnityEngine.UI;
 
 public class ScoreWindow : MonoBehaviour
 {
-    private const string SCORE_TEXT = "ScoreText";
-    private const string HIGHSCORE_TEXT = "HighScoreText";
+    private static ScoreWindow _instance;
 
-    private Text _highscoreText;
+    private const string SCORE_VALUE = "ScoreValue";
+
     private Text _scoreText;
 
     private void Awake()
     {
-        _scoreText = transform.Find(SCORE_TEXT).GetComponent<Text>();
-        _highscoreText = transform.Find(HIGHSCORE_TEXT).GetComponent<Text>();
-    }
-
-    private void Start()
-    {
-        _highscoreText.text = $"HIGHSCORE: {Score.GetHighScore()}";
+        _instance = this;
+        _scoreText = transform.Find(SCORE_VALUE).GetComponent<Text>();
     }
 
     private void Update()
     {
-        if (Level.GetInstance() != null)
-            _scoreText.text = Level.GetInstance().GetPoints().ToString();
+        _scoreText.text = (Level.GetInstance()?.GetPoints() ?? 0).ToString();
     }
+
+    public static ScoreWindow GetInstance() => _instance;
+
+    public void Hide() => gameObject.SetActive(false);
+
+    public void Show() => gameObject.SetActive(true);
 }

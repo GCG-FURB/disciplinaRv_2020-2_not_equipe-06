@@ -125,9 +125,6 @@ public class BodySourceView : MonoBehaviour
 
     private void CreateOrUpdateBodies(Body[] data)
     {
-        var level = Level.GetInstance();
-        var currentState = level?.GetState() ?? GameState.Starting;
-        
         foreach (var body in data.Where(body => body.IsTracked))
         {
             if (!_bodies.ContainsKey(body.TrackingId))
@@ -135,8 +132,15 @@ public class BodySourceView : MonoBehaviour
 
             UpdateBodyObject(body, _bodies[body.TrackingId]);
 
-            if ((currentState == GameState.Dead || currentState == GameState.Starting) && body.HandLeftState == HandState.Closed)
-                level?.Restart();
+            if (Level.IsInitializingOrDead)
+            {
+                _bodies[body.TrackingId].gameObject.SetActive(false);
+
+                if (body.HandLeftState == HandState.Closed || body.HandRightState == HandState.Closed)
+                    Level.GetInstance()?.Restart();
+            }
+            else
+                _bodies[body.TrackingId].gameObject.SetActive(true);
         }
     }
 
