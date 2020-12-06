@@ -1,6 +1,6 @@
 # FlappyHuman
 
-Jogo de realidade virtual utilizando Unity e Microsoft Kinect V2. O jogo faz a representação 2d do jogador em um mundo virtual, onde ele deve desviar de canos para pontuar.
+Jogo de realidade virtual utilizando Unity e Microsoft Kinect V2. O jogo faz a representação 2D do jogador em um mundo virtual, onde ele deve desviar de canos para pontuar.
 
 ## Ideia geral:
 - Capturar todo o corpo do usuário, representando ele com um boneco 2D e colocá-lo em um mundo virtual.
@@ -36,4 +36,4 @@ Realidade Virtual, 2020/02.
 Fundação Universidade Regional de Blumenau ([FURB](http://www.furb.br/))
 
 ## License
-GNU GENERAL PUBLIC LICENSE
+GPL-3.0 License
