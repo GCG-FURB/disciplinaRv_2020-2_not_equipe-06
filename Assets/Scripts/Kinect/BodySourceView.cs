@@ -125,8 +125,8 @@ public class BodySourceView : MonoBehaviour
 
     private void CreateOrUpdateBodies(Body[] data)
     {
-        // var inputModule = KinectInputModule.GetInstance();
-        // var currentState = Level.GetInstance().GetState();
+        var level = Level.GetInstance();
+        var currentState = level?.GetState() ?? GameState.Starting;
         
         foreach (var body in data.Where(body => body.IsTracked))
         {
@@ -135,8 +135,8 @@ public class BodySourceView : MonoBehaviour
 
             UpdateBodyObject(body, _bodies[body.TrackingId]);
 
-            //if (currentState == GameState.Dead || currentState == GameState.Starting)
-            //    inputModule.TrackBody(body);
+            if ((currentState == GameState.Dead || currentState == GameState.Starting) && body.HandLeftState == HandState.Closed)
+                level?.Restart();
         }
     }
 

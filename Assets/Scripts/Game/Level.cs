@@ -32,18 +32,17 @@ public class Level : MonoBehaviour
         _instance = this;
         SpawnInitialGround();
         SpawnInitialClouds();
-        Restart();
+        Restart(GameState.Starting);
     }
 
-    public void Restart()
+    public void Restart(GameState gameState = GameState.Waiting)
     {
         if (pipes != null)
             foreach (var pipe in pipes)
                 pipe.DestroySelf();
 
         GameOverWindow.GetInstance()?.Hide();
-
-        state = GameState.Starting;
+        state = gameState;
         pipes = new List<Pipe>();
         SetDifficulty(Difficulty.Easy);
         pipesSpawned = points = 0;
@@ -57,6 +56,8 @@ public class Level : MonoBehaviour
         switch (state)
         {
             case GameState.Starting:
+                GameOverWindow.GetInstance()?.Show();
+                break;
             case GameState.Waiting:
                 if (havePlayers)
                     state = GameState.Playing;
@@ -73,6 +74,9 @@ public class Level : MonoBehaviour
             default:
                 break;
         }
+
+        // mudar esse switch pra if mesmo
+        // se nao estiver começando esconder menu
     }
 
     public static Level GetInstance() => _instance;
@@ -240,12 +244,12 @@ public class Level : MonoBehaviour
                 moveSpeed = 10f;
                 break;
             case Difficulty.Hard:
-                gap = 20f; 
+                gap = 20f;
                 pipeSpawnTimerMax = 1.85f;
                 moveSpeed = 15f;
                 break;
             case Difficulty.Medium:
-                gap = 25f; 
+                gap = 25f;
                 pipeSpawnTimerMax = 1.65f;
                 moveSpeed = 20f;
                 break;

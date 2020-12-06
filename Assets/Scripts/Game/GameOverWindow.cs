@@ -18,7 +18,7 @@ public class GameOverWindow : MonoBehaviour
         _scoreText = transform.Find(SCORE_TEXT).GetComponent<Text>();
         _highscoreText = transform.Find(HIGHSCORE_TEXT).GetComponent<Text>();
 
-        transform.Find(RETRY_BUTTON).GetComponent<Button_UI>().ClickFunc = Level.GetInstance().Restart;
+        transform.Find(RETRY_BUTTON).GetComponent<Button_UI>().ClickFunc = () => Level.GetInstance().Restart();
 
         Hide();
     }
