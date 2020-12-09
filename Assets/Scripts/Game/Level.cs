@@ -37,9 +37,8 @@ public class Level : MonoBehaviour
 
     public void Restart(GameState gameState = GameState.Waiting)
     {
-        if (pipes != null)
-            foreach (var pipe in pipes)
-                pipe.DestroySelf();
+        foreach (var pipe in pipes ?? Enumerable.Empty<Pipe>())
+            pipe.DestroySelf();
 
         GameOverWindow.GetInstance()?.Hide();
         state = gameState;
@@ -88,7 +87,7 @@ public class Level : MonoBehaviour
     public static bool IsInitializingOrDead => new GameState[] { GameState.Starting, GameState.Dead }.Contains(_instance?.GetState() ?? GameState.Starting);
 
     public static bool IsInitializing => (_instance?.GetState() ?? GameState.Starting) == GameState.Starting;
-    
+
     public static bool IsDead => (_instance?.GetState() ?? GameState.Starting) == GameState.Dead;
 
     private void SetOnDiedEvent()
@@ -247,17 +246,17 @@ public class Level : MonoBehaviour
             case Difficulty.Impossible:
                 gap = 15f;
                 pipeSpawnTimerMax = 2f;
-                moveSpeed = 10f;
+                moveSpeed = 40f;
                 break;
             case Difficulty.Hard:
                 gap = 20f;
                 pipeSpawnTimerMax = 1.85f;
-                moveSpeed = 15f;
+                moveSpeed = 35f;
                 break;
             case Difficulty.Medium:
                 gap = 25f;
                 pipeSpawnTimerMax = 1.65f;
-                moveSpeed = 20f;
+                moveSpeed = 30f;
                 break;
             case Difficulty.Easy:
             default:
