@@ -136,7 +136,7 @@ public class BodySourceView : MonoBehaviour
             {
                 _bodies[body.TrackingId].gameObject.SetActive(false);
 
-                if (body.HandLeftState == HandState.Closed || body.HandRightState == HandState.Closed)
+                if (body.HandLeftState == HandState.Closed && body.HandRightState == HandState.Closed)
                     Level.GetInstance()?.Restart();
             }
             else
