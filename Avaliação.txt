@@ -1,0 +1,23 @@
+Equipe 6
+Nota: 10,0
+X Alan Felipe Jantz
+X Caroline Belli Regalin
+X Matheus Mahnke
+Fizeram slides, ok.
+
+Cinemática Direta / Inversa
+
+MS: um apena pararem o projeto .. chega HoloLens
+Fizemos alguns projetos e TCC.
+   Entrada de audio
+   Reconhecimento de 3 a 5 pessoas
+     etc.
+
+Geralmente capturar articulação do corpo, mas ser como um scanner 3D
+	projeto Caixa de Areia
+
+Dois momentos _
+ - interação do menu com gestos
+ - captura do corpo (articulação) para representar um avatar no espaço virtual
+   ---> esteriótipo do espelho
+   		USB3
